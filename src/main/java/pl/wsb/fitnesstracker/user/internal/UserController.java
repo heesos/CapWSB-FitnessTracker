@@ -29,15 +29,11 @@ class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) throws InterruptedException {
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         User userToCreate = userMapper.toEntity(userDto);
         User createdUser = userService.createUser(userToCreate);
         UserDto createdUserDto = userMapper.toDto(createdUser);
         return ResponseEntity.status(201).body(createdUserDto);
-    }
-
-    public UserDto deleteUser(@RequestBody UserDto userDto) throws InterruptedException {
-        return null;
     }
 
     @GetMapping("/simple")

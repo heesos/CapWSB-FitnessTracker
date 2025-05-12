@@ -27,7 +27,7 @@ class UserServiceImpl implements UserService, UserProvider {
         }
         return userRepository.save(user);
     }
-
+    @Override
     public void updateUser(Long id, User updatedUser) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
@@ -56,12 +56,12 @@ class UserServiceImpl implements UserService, UserProvider {
                 .filter(user -> user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
                 .toList();
     }
-
+    @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         userRepository.delete(user);
     }
-
+    @Override
     public List<User> findUsersOlderThan(LocalDate date) {
         return userRepository.findAll()
                 .stream()

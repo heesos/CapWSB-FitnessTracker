@@ -30,5 +30,4 @@ class UserMapper {
     EmailOnlyUserDto toEmailOnlyDto(User user) {
         return new EmailOnlyUserDto(user.getId(), user.getEmail());
     }
-
 }
