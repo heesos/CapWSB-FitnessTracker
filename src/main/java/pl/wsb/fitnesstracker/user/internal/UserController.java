@@ -3,8 +3,12 @@ package pl.wsb.fitnesstracker.user.internal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,18 +29,11 @@ class UserController {
     }
 
     @PostMapping
-    public UserDto addUser(@RequestBody UserDto userDto) throws InterruptedException {
-
-        // TODO: Implement the method to add a new user.
-        //  You can use the @RequestBody annotation to map the request body to the UserDto object.
-
-
-        return null;
-    }
-
-
-    public UserDto updateUser(@RequestBody UserDto userDto) throws InterruptedException {
-        return null;
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) throws InterruptedException {
+        User userToCreate = userMapper.toEntity(userDto);
+        User createdUser = userService.createUser(userToCreate);
+        UserDto createdUserDto = userMapper.toDto(createdUser);
+        return ResponseEntity.status(201).body(createdUserDto);
     }
 
     public UserDto deleteUser(@RequestBody UserDto userDto) throws InterruptedException {
@@ -49,7 +46,43 @@ class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto getUserById(@PathVariable Long id)  {
-        return userService.getUser(id).map(userMapper::toDto).orElse(null);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUser(id)
+                        .map(userMapper::toDto)
+                        .orElseThrow(() -> new UserNotFoundException(id))
+        );
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<List<EmailOnlyUserDto>> getUsersByEmail(@RequestParam String email) {
+        List<User> matchedUsers = userService.findUsersByEmailContainingIgnoreCase(email);
+
+        List<EmailOnlyUserDto> result = matchedUsers.stream()
+                .map(userMapper::toEmailOnlyDto)
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        userService.updateUser(id, userMapper.toEntity(userDto));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/older/{time}")
+    public ResponseEntity<List<UserDto>> getUsersOlderThan(@PathVariable LocalDate time) {
+        List<UserDto> result = userService.findUsersOlderThan(time)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+
+        return ResponseEntity.ok(result);
     }
 }
