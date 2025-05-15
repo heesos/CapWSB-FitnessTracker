@@ -73,6 +73,7 @@ class UserServiceImpl implements UserService, UserProvider {
                 .toList();
     }
 
+    @Override
     public List<User> findUserByEmailFragment(String emailFragment) {
         return userRepository.findByEmailContainingIgnoreCase(emailFragment);
     }

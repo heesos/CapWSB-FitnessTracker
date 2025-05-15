@@ -40,4 +40,12 @@ public interface UserProvider {
      *         an empty list if no such users exist
      */
     List<User> findUsersOlderThan(LocalDate date);
+
+    /**
+     * Retrieves a list of users whose email addresses contain the specified fragment.
+     *
+     * @param emailFragment  fragment of the email address to search for
+     * @return a list of {@link User} objects matching the given email fragment; never {@code null}, but possibly empty
+     */
+    List<User> findUserByEmailFragment(String emailFragment);
 }
