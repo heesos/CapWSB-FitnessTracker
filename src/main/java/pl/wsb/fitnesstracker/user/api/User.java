@@ -51,6 +51,5 @@ public class User {
         this.birthdate = updatedUser.getBirthdate();
         this.email = updatedUser.getEmail();
     }
-
 }
 

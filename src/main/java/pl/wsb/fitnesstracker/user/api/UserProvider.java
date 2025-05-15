@@ -31,5 +31,13 @@ public interface UserProvider {
      */
     List<User> findAllUsers();
 
+    /**
+     * Retrieves all users whose birthdate is earlier than the specified date,
+     * meaning they are older than the provided date.
+     *
+     * @param date the cutoff {@link LocalDate}; only users born before this date will be returned
+     * @return a {@link List} of {@link User} objects older than the given date;
+     *         an empty list if no such users exist
+     */
     List<User> findUsersOlderThan(LocalDate date);
 }

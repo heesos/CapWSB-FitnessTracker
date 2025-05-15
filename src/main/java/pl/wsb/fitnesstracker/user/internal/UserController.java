@@ -52,7 +52,6 @@ class UserController {
     @GetMapping("/email")
     public ResponseEntity<List<EmailOnlyUserDto>> getUsersByEmail(@RequestParam String email) {
         List<User> matchedUsers = userService.findUsersByEmailContainingIgnoreCase(email);
-
         List<EmailOnlyUserDto> result = matchedUsers.stream()
                 .map(userMapper::toEmailOnlyDto)
                 .toList();
@@ -80,5 +79,13 @@ class UserController {
                 .toList();
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/search/email")
+    public List<UserDto> findByEmailFragment(@RequestParam String fragment) {
+        return userService.findUserByEmailFragment(fragment)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 }

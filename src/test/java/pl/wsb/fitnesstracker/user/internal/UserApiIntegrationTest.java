@@ -212,4 +212,30 @@ class UserApiIntegrationTest extends IntegrationTestBase {
     }
 
 
+    private User generateUserWithEmail(String email) {
+        return new User(
+                "Jan",
+                "Kowalski",
+                LocalDate.of(1990, 1, 1),
+                email
+        );
+    }
+    @Test
+    void shouldReturnUsers_whenSearchingByEmailFragment() throws Exception {
+        User user1 = existingUser(generateUserWithEmail("example@example.com"));
+        User user2 = existingUser(generateUserWithEmail("test@example.com"));
+        existingUser(generateUserWithEmail("other@domain.com"));
+
+        String fragment = "example";
+
+        mockMvc.perform(get("/v1/users/search/email")
+                        .param("fragment", fragment)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(log())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].email").value(user1.getEmail()))
+                .andExpect(jsonPath("$[1].email").value(user2.getEmail()))
+                .andExpect(jsonPath("$[2]").doesNotExist());
+    }
 }

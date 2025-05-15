@@ -3,6 +3,7 @@ package pl.wsb.fitnesstracker.user.internal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.wsb.fitnesstracker.user.api.User;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,4 +21,15 @@ interface UserRepository extends JpaRepository<User, Long> {
                 .findFirst();
     }
 
+    /**
+     * Query searching users whose email contains the given fragment
+     *
+     * @param emailFragment the fragment of the emial to search for
+     * @return a {@link List} of {@link User} objects
+     */
+    default List<User> findByEmailContainingIgnoreCase(String emailFragment) {
+        return findAll().stream()
+                .filter(user -> user.getEmail() != null && user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
+                .toList();
+    }
 }

@@ -56,16 +56,24 @@ class UserServiceImpl implements UserService, UserProvider {
                 .filter(user -> user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
                 .toList();
     }
+
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        userRepository.delete(user);
+        userRepository.findById(id).ifPresentOrElse(
+                userRepository::delete,
+                () -> { throw new UserNotFoundException(id); }
+        );
     }
+
     @Override
     public List<User> findUsersOlderThan(LocalDate date) {
         return userRepository.findAll()
                 .stream()
                 .filter(user -> user.getBirthdate().isBefore(date))
                 .toList();
+    }
+
+    public List<User> findUserByEmailFragment(String emailFragment) {
+        return userRepository.findByEmailContainingIgnoreCase(emailFragment);
     }
 }
