@@ -21,6 +21,8 @@ class UserServiceImpl implements UserService, UserProvider {
 
     @Override
     public User createUser(final User user) {
+        // wydaje mi sie ze tego ifa możemy wyrzucić, bo w mapperze juz nawet nie przekazujemy tego id
+        // if (true) jest na tym etapie
         log.info("Creating User {}", user);
         if (user.getId() != null) {
             throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
