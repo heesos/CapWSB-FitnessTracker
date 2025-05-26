@@ -49,4 +49,9 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
     public boolean updateTraining(Training training) {
         return false;
     }
+
+    public List<Training> getAllTrainingsByUserId(Long userId) {
+        return trainingRepository.findAll().stream().filter(training -> training.getUser().getId().equals(userId)).toList();
+    }
+
 }
