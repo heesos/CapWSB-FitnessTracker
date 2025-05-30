@@ -54,8 +54,14 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
         throw new IllegalArgumentException("User with that ID does not exist");
     }
 
-    public boolean updateTraining(Training training) {
-        return false;
+    @Override
+    public Training updateTraining(Long trainingId, Training training) {
+        Optional<Training> trainingOptional = trainingRepository.findById(trainingId);
+        if(trainingOptional.isPresent()) {
+            trainingOptional.get().updateTraining(training);
+            return trainingRepository.save(trainingOptional.get());
+        }
+        return null;
     }
 
     public List<Training> getAllTrainingsByUserId(Long userId) {

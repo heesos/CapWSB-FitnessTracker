@@ -2,6 +2,7 @@ package pl.wsb.fitnesstracker.training.internal;
 
 import org.springframework.stereotype.Component;
 import pl.wsb.fitnesstracker.training.api.Training;
+import pl.wsb.fitnesstracker.training.internal.dto.*;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 
@@ -34,6 +35,14 @@ public class TrainingMapper {
                 training.getUser().getLastName(),
                 training.getUser().getEmail());
         return new TrainingPostResponseDto(user, training.getDistance(), training.getAverageSpeed());
+    }
+
+    TrainingPutResponseDto mapToPutResponseDto(Training training) {
+        UserTrainingDto  user = new UserTrainingDto(training.getUser().getId(),
+                training.getUser().getFirstName(),
+                training.getUser().getLastName(),
+                training.getUser().getEmail());
+        return new TrainingPutResponseDto(user, training.getDistance(), training.getAverageSpeed(), training.getActivityType());
     }
 
 }

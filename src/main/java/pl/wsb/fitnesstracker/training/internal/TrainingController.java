@@ -5,8 +5,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.training.api.Training;
+import pl.wsb.fitnesstracker.training.internal.dto.TrainingDto;
+import pl.wsb.fitnesstracker.training.internal.dto.TrainingPostDto;
+import pl.wsb.fitnesstracker.training.internal.dto.TrainingPostResponseDto;
+import pl.wsb.fitnesstracker.training.internal.dto.TrainingPutResponseDto;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -49,5 +52,13 @@ public class TrainingController {
         Training newTraining = trainingService.addTraining(training);
         TrainingPostResponseDto newTrainingPostDto = trainingMapper.mapToPostResponseDto(newTraining);
         return ResponseEntity.status(201).body(newTrainingPostDto);
+    }
+
+    @PutMapping("/{trainingId}")
+    ResponseEntity<TrainingPutResponseDto> updateTraining(@RequestBody TrainingPostDto trainingUpdateDto, @PathVariable Long trainingId) {
+        Training training = trainingMapper.mapToEntity(trainingUpdateDto);
+        Training newTraining = trainingService.updateTraining(trainingId,training);
+        TrainingPutResponseDto trainingPutResponseDto = trainingMapper.mapToPutResponseDto(newTraining);
+        return ResponseEntity.ok(trainingPutResponseDto);
     }
 }

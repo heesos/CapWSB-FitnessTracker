@@ -1,4 +1,6 @@
-package pl.wsb.fitnesstracker.training.internal;
+package pl.wsb.fitnesstracker.training.internal.dto;
+
+import pl.wsb.fitnesstracker.training.internal.ActivityType;
 
 import java.util.Date;
 

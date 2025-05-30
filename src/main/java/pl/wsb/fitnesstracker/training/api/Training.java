@@ -55,4 +55,12 @@ public class Training {
         this.distance = distance;
         this.averageSpeed = averageSpeed;
     }
+
+    public void updateTraining(Training training) {
+        this.startTime = training.startTime;
+        this.endTime = training.endTime;
+        this.activityType = training.activityType;
+        this.distance = training.getDistance();
+        this.averageSpeed = training.getAverageSpeed();
+    }
 }
