@@ -28,9 +28,12 @@ public class TrainingMapper {
                 trainingPostDto.averageSpeed());
     }
 
-    TrainingPostDto mapToPostDro(Training training) {
-        return new TrainingPostDto(training.getUser().getId().toString(),
-                training.getStartTime(),training.getEndTime(), training.getDistance(), training.getAverageSpeed(),training.getActivityType());
+    TrainingPostResponseDto mapToPostResponseDto(Training training) {
+        UserTrainingDto  user = new UserTrainingDto(training.getUser().getId(),
+                training.getUser().getFirstName(),
+                training.getUser().getLastName(),
+                training.getUser().getEmail());
+        return new TrainingPostResponseDto(user, training.getDistance(), training.getAverageSpeed());
     }
 
 }

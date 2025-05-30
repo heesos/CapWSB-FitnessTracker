@@ -44,10 +44,10 @@ public class TrainingController {
     }
 
     @PostMapping
-    ResponseEntity<TrainingPostDto> addTraining(@RequestBody TrainingPostDto trainingPostDto) {
+    ResponseEntity<TrainingPostResponseDto> addTraining(@RequestBody TrainingPostDto trainingPostDto) {
         Training training = trainingMapper.mapToEntity(trainingPostDto);
         Training newTraining = trainingService.addTraining(training);
-        TrainingPostDto newTrainingPostDto = trainingMapper.mapToPostDro(newTraining);
+        TrainingPostResponseDto newTrainingPostDto = trainingMapper.mapToPostResponseDto(newTraining);
         return ResponseEntity.status(201).body(newTrainingPostDto);
     }
 }
