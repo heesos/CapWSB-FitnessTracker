@@ -1,12 +1,13 @@
 package pl.wsb.fitnesstracker.training.internal;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.training.api.Training;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,5 +33,21 @@ public class TrainingController {
                 .stream()
                 .map(trainingMapper::mapToDto)
                 .toList();
+    }
+
+    @GetMapping("/finished/{afterTime}")
+    List<TrainingDto> getAllTrainingsAfterGivenTime(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date afterTime) {
+        return trainingService.getAllTrainingsAfterGivenTime(afterTime)
+                .stream()
+                .map(trainingMapper::mapToDto)
+                .toList();
+    }
+
+    @PostMapping
+    ResponseEntity<TrainingPostDto> addTraining(@RequestBody TrainingPostDto trainingPostDto) {
+        Training training = trainingMapper.mapToEntity(trainingPostDto);
+        Training newTraining = trainingService.addTraining(training);
+        TrainingPostDto newTrainingPostDto = trainingMapper.mapToPostDro(newTraining);
+        return ResponseEntity.status(201).body(newTrainingPostDto);
     }
 }

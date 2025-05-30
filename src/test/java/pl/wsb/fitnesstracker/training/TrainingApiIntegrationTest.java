@@ -182,6 +182,7 @@ class TrainingApiIntegrationTest extends IntegrationTestBase {
                     "averageSpeed": 8.2
                 }
                 """.formatted(user1.getId());
+        System.out.println(requestBody);
         mockMvc.perform(post("/v1/trainings").contentType(MediaType.APPLICATION_JSON).content(requestBody))
                 .andDo(log())
                 .andExpect(status().isCreated())

@@ -6,24 +6,29 @@ import org.springframework.stereotype.Service;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.api.TrainingProvider;
 import pl.wsb.fitnesstracker.training.api.TrainingService;
-import pl.wsb.fitnesstracker.training.internal.TrainingRepository;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.user.api.UserProvider;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-// TODO: Provide Implementation and correct the return type of the method getTraining
 public class TrainingServiceImpl implements TrainingProvider, TrainingService {
 
     private final TrainingRepository trainingRepository;
-
+    private final UserProvider userProvider;
 
     @Override
-    public Optional<User> getTraining(final Long trainingId) {
-        throw new UnsupportedOperationException("Not finished yet");
+    public Optional<Training> getTraining(final Long trainingId) {
+        return trainingRepository.findById(trainingId);
+    }
+
+    @Override
+    public List<Training> getAllTrainingsAfterGivenTime(Date afterTime) {
+        return trainingRepository.findAll().stream().filter(training -> training.getEndTime().after(afterTime)).toList();
     }
 
     public List<Training>getAllTrainings() {
@@ -42,8 +47,11 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
         return null;
     }
 
-    public boolean addTraining(Training training) {
-        return false;
+    public Training addTraining(Training training) {
+        if(userProvider.getUser(training.getUser().getId()).isPresent()) {
+          return trainingRepository.save(training);
+        }
+        throw new IllegalArgumentException("User with that ID does not exist");
     }
 
     public boolean updateTraining(Training training) {
