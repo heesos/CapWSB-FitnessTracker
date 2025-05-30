@@ -1,5 +1,7 @@
 package pl.wsb.fitnesstracker.training.api;
 
+import pl.wsb.fitnesstracker.training.internal.ActivityType;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +19,6 @@ public interface TrainingProvider {
 
 
     List<Training> getAllTrainingsAfterGivenTime(Date afterTime);
+
+    List<Training> getAllTrainingsByActivityType(ActivityType activityType);
 }

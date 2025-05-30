@@ -31,20 +31,13 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
         return trainingRepository.findAll().stream().filter(training -> training.getEndTime().after(afterTime)).toList();
     }
 
+    @Override
+    public List<Training> getAllTrainingsByActivityType(ActivityType activityType) {
+        return trainingRepository.findAll().stream().filter(training -> training.getActivityType().equals(activityType)).toList();
+    }
+
     public List<Training>getAllTrainings() {
         return trainingRepository.findAll();
-    }
-
-    public List<Training>getUserTrainings(User user) {
-        return null;
-    }
-
-    public List<Training>getFinishedTrainings(LocalDate date) {
-        return null;
-    }
-
-    public List<Training>getTrainingsByActivity(ActivityType activity) {
-        return null;
     }
 
     public Training addTraining(Training training) {

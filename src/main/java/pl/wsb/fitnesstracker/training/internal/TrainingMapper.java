@@ -45,4 +45,12 @@ public class TrainingMapper {
         return new TrainingPutResponseDto(user, training.getDistance(), training.getAverageSpeed(), training.getActivityType());
     }
 
+    TrainingActivityDto mapToActivityDto(Training training) {
+        UserTrainingDto  user = new UserTrainingDto(training.getUser().getId(),
+                training.getUser().getFirstName(),
+                training.getUser().getLastName(),
+                training.getUser().getEmail());
+        return new TrainingActivityDto(user, training.getActivityType());
+    }
+
 }
