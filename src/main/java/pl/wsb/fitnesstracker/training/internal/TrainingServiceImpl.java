@@ -22,7 +22,7 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
     private final UserProvider userProvider;
 
     @Override
-    public Optional<Training> getTraining(final Long trainingId) {
+    public Optional<Training> getTraining(Long trainingId) {
         return trainingRepository.findById(trainingId);
     }
 
