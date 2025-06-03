@@ -11,9 +11,9 @@ import java.text.SimpleDateFormat;
 @Component
 public class EmailMapper {
 
-    private final String EMAILSUBJECT = "Your monthly training raport";
+    private static final String EMAIL_SUBJECT = "Your monthly training raport";
 
-    EmailDto mapToDto(Training training) {
+    static EmailDto mapToDto(Training training) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
 
         UserTrainingDto user = new UserTrainingDto(training.getUser().getId(),
@@ -30,6 +30,6 @@ public class EmailMapper {
                 "Your training started at %s and ended at %s. You covered %.2f km with an average speed of %.2f km/h.",
                 start, end, trainingDto.distance(),trainingDto.averageSpeed());
 
-        return new EmailDto(trainingDto.user().email(),EMAILSUBJECT, emailBody);
+        return new EmailDto(trainingDto.user().email(),EMAIL_SUBJECT, emailBody);
     }
 }

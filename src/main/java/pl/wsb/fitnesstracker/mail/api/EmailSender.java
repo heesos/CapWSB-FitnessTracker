@@ -1,13 +1,13 @@
 package pl.wsb.fitnesstracker.mail.api;
 
 
+import java.util.List;
+
 /**
  * API interface for component responsible for sending emails.
  */
 public interface EmailSender {
 
-
-    void sendEveryMonth();
     /**
      * Sends the email message to the recipient from the provided {@link EmailDto}.
      *
