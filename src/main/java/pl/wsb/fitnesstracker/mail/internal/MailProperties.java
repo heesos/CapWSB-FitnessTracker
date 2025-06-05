@@ -12,11 +12,10 @@ import pl.wsb.fitnesstracker.mail.api.EmailSender;
 @ConfigurationProperties(prefix = "mail")
 @Getter
 @RequiredArgsConstructor
-class MailProperties {
+public class MailProperties {
 
     /**
      * Email address that the email should be sent from.
      */
     private final String from;
-
 }

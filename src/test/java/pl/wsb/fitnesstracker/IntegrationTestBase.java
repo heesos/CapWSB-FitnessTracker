@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.wsb.FitnessTracker;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.user.api.User;
 
 import java.util.List;
 
-@SpringBootTest
+@SpringBootTest(classes = FitnessTracker.class)
 @AutoConfigureMockMvc
 public abstract class IntegrationTestBase {
 

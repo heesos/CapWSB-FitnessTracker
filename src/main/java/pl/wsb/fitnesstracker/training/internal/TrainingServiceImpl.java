@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.api.TrainingProvider;
 import pl.wsb.fitnesstracker.training.api.TrainingService;
-import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +20,7 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
     private final UserProvider userProvider;
 
     @Override
-    public Optional<Training> getTraining(final Long trainingId) {
+    public Optional<Training> getTraining(Long trainingId) {
         return trainingRepository.findById(trainingId);
     }
 
@@ -36,6 +34,7 @@ public class TrainingServiceImpl implements TrainingProvider, TrainingService {
         return trainingRepository.findAll().stream().filter(training -> training.getActivityType().equals(activityType)).toList();
     }
 
+    @Override
     public List<Training>getAllTrainings() {
         return trainingRepository.findAll();
     }
